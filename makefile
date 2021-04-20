@@ -3,18 +3,18 @@
 CC = gcc
 ARGS = -Wall
 
-all: server_udp client_udp server_tcp client_tcp
+all: server_c_udp client_c_udp server_c_tcp client_c_tcp
 
-server_udp: server_udp.c
+server_c_udp: server_udp.c
 	$(CC) $(ARGS) -o $^ $@
 
-client_udp: client_udp.c
+client_c_udp: client_udp.c
 	$(CC) $(ARGS) -o $^ $@
 
-server_tcp: server_tcp.c
+server_c_tcp: server_tcp.c
 	$(CC) $(ARGS) -o $^ $@
 
-client_tcp: client_tcp.c
+client_c_tcp: client_tcp.c
 	$(CC) $(ARGS) -o $^ $@
 
 clean:
