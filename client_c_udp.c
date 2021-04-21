@@ -1,4 +1,5 @@
-/* UDP client in the internet domain */
+// client_c_udp.c
+
 #include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -9,46 +10,26 @@
 #include <unistd.h>
 #include <string.h>
 
-void error(const char *);
-int main(int argc, char *argv[])
-{
-   int sock, n;
+int main(int argc, char *argv[]) {
+   int sock;
    unsigned int length;
    struct sockaddr_in server, from;
    struct hostent *hp;
    char buffer[128];
    
-   if (argc != 3) { printf("Usage: server port\n");
-                    exit(1);
-   }
    sock = socket(AF_INET, SOCK_DGRAM, 0);
-   if (sock < 0) error("socket");
-
    server.sin_family = AF_INET;
    hp = gethostbyname(argv[1]);
-   if (hp==0) error("Unknown host");
-
-   bcopy((char *)hp->h_addr, 
-        (char *)&server.sin_addr,
-         hp->h_length);
+   bcopy((char *)hp->h_addr, (char *)&server.sin_addr, hp->h_length);
    server.sin_port = htons(atoi(argv[2]));
    length=sizeof(struct sockaddr_in);
    printf("Enter string: ");
    bzero(buffer,128);
    fgets(buffer,128,stdin);
-   n=sendto(sock,buffer,
-            strlen(buffer),0,(const struct sockaddr *)&server,length);
-   if (n < 0) error("Sendto");
-   n = recvfrom(sock,buffer,128,0,(struct sockaddr *)&from, &length);
-   if (n < 0) error("recvfrom");
-   write(1,"From server: ",14);
-   write(1,buffer,n);
+   
+   sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&server,length);
+   recvfrom(sock,buffer,128,0,(struct sockaddr *)&from, &length);
+   write(1,buffer,strlen(buffer));
    close(sock);
    return 0;
-}
-
-void error(const char *msg)
-{
-    perror(msg);
-    exit(0);
 }

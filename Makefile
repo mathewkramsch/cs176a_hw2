@@ -6,7 +6,7 @@ ARGS = -Wall
 all: server_c_udp client_c_udp server_c_tcp client_c_tcp
 
 server_c_udp: server_c_udp.c
-	$(CC) $(ARGS) $^ -o $@
+	$(CC) $(ARGS) $^ -lm -o $@
 
 client_c_udp: client_c_udp.c
 	$(CC) $(ARGS) $^ -o $@

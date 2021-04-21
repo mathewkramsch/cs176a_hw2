@@ -19,17 +19,6 @@ bool isNumber(const char *buffer) {
 	return true;
 }
 
-char* toArray(int num) {
-// PRECONDITION: n is positive
-// POSTCONDITION: converts integer n into a character array
-	int n = log10(num) + 1;
-	char *numberArray = calloc(n, sizeof(char));
-	for (int i=n-1; i>=0; --i, num/=10) {
-		numberArray[i] = (num % 10) + '0';
-	}
-	return numberArray;
-}
-
 char* getSum(const char *buffer) {
 // PRECONDITION: buffer is non-empty and is all integers
 // POSTCONDITON: returns a char array of the sum of buffer's digits
@@ -64,23 +53,18 @@ char* getMessage(const char *buffer) {
 
 int main(int argc, char *argv[]) {
 
-	// MAKE VARIABLES	
-	int sockfd, newsockfd, portno;  
+	// MAKE VARIABLES
+	int sockfd, newsockfd, portno;
 	socklen_t clilen;  // socket length variable
 	char buffer[256];  // 256 bytes
 	struct sockaddr_in serv_addr, cli_addr;  // address structures
-
-	if (argc < 2) {  // check # of arguments
-		fprintf(stderr,"ERROR, no port provided (delete this)\n");
-		exit(1);
-	}
 
 	// CREATE NEW SOCKET
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
 
 	// POPULATE serv_addr STRUCTURE
 	bzero((char *) &serv_addr, sizeof(serv_addr));  // clears serv_addr struct
-	portno = atoi(argv[1]);  // get port number 
+	portno = atoi(argv[1]);  // get port number
 	serv_addr.sin_family = AF_INET;  // for IPv4
 	serv_addr.sin_addr.s_addr = INADDR_ANY;  // where to accept connections from (all interfaces)
 	serv_addr.sin_port = htons(portno);  // what port to bind to
@@ -89,7 +73,7 @@ int main(int argc, char *argv[]) {
 	bind(sockfd, (struct sockaddr *) &serv_addr, sizeof(serv_addr));
 
 	// LISTEN ON SOCKET FOR NEW CONNECTIONS
-	listen(sockfd,5); 
+	listen(sockfd,5);
 
 	while (true) {
 		clilen = sizeof(cli_addr);
@@ -119,7 +103,7 @@ int main(int argc, char *argv[]) {
 
 /* USAGE:
  * ./server <PORT>
- * ie. ./server 8000 
+ * ie. ./server 8000
  * creates new socket bound to port 8000 w/ address 0.0.0.0 (listens to all interfaces) */
 
 
