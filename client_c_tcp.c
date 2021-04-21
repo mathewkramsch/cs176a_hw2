@@ -65,11 +65,8 @@ int main(int argc, char *argv[]) {
 
 	// READ FROM SOCKET
 	bzero(buffer,256);
-	while (read(sockfd,buffer,255) > 0) {
-		printf("From server: %s\n",buffer);  // print what server wrote
-		write(sockfd,buffer,strlen(buffer));
-		bzero(buffer,256);
-	}
+	read(sockfd,buffer,255);
+	printf("%s",buffer);  // print what server wrote
 
 	// CLOSE SOCKET
     close(sockfd);

@@ -30,18 +30,14 @@ char* toArray(int num) {
 	return numberArray;
 }
 
-char* getSum(char *buffer) {
+char* getSum(const char *buffer) {
 // PRECONDITION: buffer is non-empty and is all integers
 // POSTCONDITON: returns a char array of the sum of buffer's digits
 	int sum = 0;
-	//printf("length of buffer: %lu\n",strlen(buffer));
 	for (int i=0; i<strlen(buffer); i++) {
 		if (isdigit(buffer[i]))  // since last element might be null terminator
 			sum += buffer[i]-'0';
-		//printf("buffer[%i]: ",i);
-		//printf("%c\n",buffer[i]);
 	}
-	//printf("sum: %i\n",sum);
 	int n = log10(sum) + 1;
 	char *numberArray = calloc(n+1, sizeof(char));
 	for (int i=n-1; i>=0; --i, sum/=10) {
@@ -49,6 +45,21 @@ char* getSum(char *buffer) {
 	}
 	numberArray[n] = '\0';
 	return numberArray;
+}
+
+char* getMessage(const char *buffer) {
+// PRECONDITION: buffer is non-empty and is all integers
+// POSTCONDITION: returns a char array representing each iterative sum of buffer's digits
+	char *mssg = calloc(256, sizeof(char));
+	char *tmpBuffer = calloc(256, sizeof(char));
+	memcpy(tmpBuffer, buffer, strlen(buffer));
+	while (strlen(tmpBuffer)>1) {
+		strcat(mssg, "From server: ");
+		strcat(mssg, getSum(tmpBuffer));
+		strcat(mssg, "\n");
+		memcpy(tmpBuffer, getSum(tmpBuffer), strlen(tmpBuffer));  // overwrites buffer with its sum
+	}
+	return mssg;
 }
 
 int main(int argc, char *argv[]) {
@@ -80,22 +91,17 @@ int main(int argc, char *argv[]) {
 	// LISTEN ON SOCKET FOR NEW CONNECTIONS
 	listen(sockfd,5); 
 
-	// ACCEPT CONNECTION FROM CLIENT
-	clilen = sizeof(cli_addr);
-	newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-
-	bzero(buffer,256);  // clear buffer
-	while (read(newsockfd,buffer,255) > 0) {
-		if (!isNumber(buffer)) {
-			write(newsockfd,"Sorry, cannot compute!",22);
-			break;
-		}
-		else if (strlen(buffer)<2) break;
+	while (true) {
+		clilen = sizeof(cli_addr);
+		newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+		bzero(buffer,256);  // clear buffer
+		read(newsockfd,buffer,255);
+		if (!isNumber(buffer)) write(newsockfd,"Sorry, cannot compute!\n",23);
 		else {
-			memcpy(buffer, getSum(buffer), strlen(buffer));  // overwrites buffer with its sum
+			memcpy(buffer, getMessage(buffer), strlen(getMessage(buffer)));  // overwrites buffer with the message
 			write(newsockfd,buffer,strlen(buffer));
-			bzero(buffer,256);
 		}
+		close(newsockfd);
 	}
 
 	// CLOSES CLIENT'S SOCKET AND SERVER'S LISTENING SOCKET
