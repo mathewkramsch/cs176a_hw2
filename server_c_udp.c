@@ -9,7 +9,17 @@
 #include <stdio.h>
 #include <ctype.h>
 
-
+int charlen(char b[]){
+    //get length of buff characters
+int s = 0;
+for(int i = 0;i < 128;i++){
+    if(b[i]=='\0'){
+        return s;
+    }
+    s++;
+}
+return s;
+}
 
 void error(const char *msg)
 {
@@ -56,15 +66,9 @@ for(int i = 0; i < n-1; i++){
         return 0;
     }
 }
-//get length of buff characters
-int s = 0;
-for(int i = 0;i < 128;i++){
-    if(buff[i]=='\0'){
-        return;
-    }
-    s++;
-}
-newlen=s;
+
+int len = charlen(buff);
+newlen=len;
 
 
 printf("newlen,%i",newlen);

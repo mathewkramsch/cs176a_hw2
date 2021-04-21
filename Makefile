@@ -3,8 +3,6 @@
 CC = gcc
 ARGS = -Wall
 
-just_tcp: server_c_tcp client_c_tcp
-
 all: server_c_udp client_c_udp server_c_tcp client_c_tcp
 
 server_c_udp: server_c_udp.c
