@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
    unsigned int length;
    struct sockaddr_in server, from;
    struct hostent *hp;
-   char buffer[128];
+   char buffer[256];
    
    sock = socket(AF_INET, SOCK_DGRAM, 0);
    server.sin_family = AF_INET;
@@ -24,11 +24,11 @@ int main(int argc, char *argv[]) {
    server.sin_port = htons(atoi(argv[2]));
    length=sizeof(struct sockaddr_in);
    printf("Enter string: ");
-   bzero(buffer,128);
-   fgets(buffer,128,stdin);
+   bzero(buffer,256);
+   fgets(buffer,256,stdin);
    
    sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&server,length);
-   recvfrom(sock,buffer,128,0,(struct sockaddr *)&from, &length);
+   recvfrom(sock,buffer,256,0,(struct sockaddr *)&from, &length);
    write(1,buffer,strlen(buffer));
    close(sock);
    return 0;

@@ -42,8 +42,8 @@ char* getSum(const char *buffer) {
 char* getMessage(const char *buffer) {
 // PRECONDITION: buffer is non-empty and is all integers
 // POSTCONDITION: returns a char array representing each iterative sum of buffer's digits
-	char *mssg = calloc(128, sizeof(char));
-	char *tmpBuffer = calloc(128, sizeof(char));
+	char *mssg = calloc(256, sizeof(char));
+	char *tmpBuffer = calloc(256, sizeof(char));
 	memcpy(tmpBuffer, buffer, strlen(buffer));
 	while (strlen(tmpBuffer)>1) {
 		strcat(mssg, "From server: ");
@@ -58,7 +58,7 @@ int main(int argc, char *argv[]) {
 	struct sockaddr_in from;
 	struct sockaddr_in server;
 	socklen_t fromlen;
-	char buff[128];
+	char buff[256];
 
 	//create socket
 	int sock = socket(AF_INET,SOCK_DGRAM,0);
@@ -72,17 +72,17 @@ int main(int argc, char *argv[]) {
 	//get string from client, n now holds number of bytes in message
 	
 	while (true) {
-		recvfrom(sock,buff,128,0,(struct sockaddr *)&from,&fromlen);
+		recvfrom(sock,buff,256,0,(struct sockaddr *)&from,&fromlen);
 		if (!isNumber(buff)) {
-			sendto(sock,"From server: Sorry, cannot compute!\n",128,0,(struct sockaddr *)&from,fromlen);
+			sendto(sock,"From server: Sorry, cannot compute!\n",256,0,(struct sockaddr *)&from,fromlen);
 		} else {
-			char *newBuffer = calloc(128, sizeof(char));
+			char *newBuffer = calloc(256, sizeof(char));
 			newBuffer = getMessage(buff);
-			bzero(buff,128);
+			bzero(buff,256);
 			memcpy(buff, newBuffer, strlen(newBuffer));  // overwrites buffer with the message
-			sendto(sock,buff,128,0,(struct sockaddr *)&from,fromlen);
+			sendto(sock,buff,256,0,(struct sockaddr *)&from,fromlen);
 		}
-		bzero(buff,128);
+		bzero(buff,256);
 	}
 
 	close(sock);
