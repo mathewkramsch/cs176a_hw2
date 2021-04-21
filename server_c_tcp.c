@@ -96,9 +96,12 @@ int main(int argc, char *argv[]) {
 		newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
 		bzero(buffer,256);  // clear buffer
 		read(newsockfd,buffer,255);
-		if (!isNumber(buffer)) write(newsockfd,"Sorry, cannot compute!\n",23);
+		if (!isNumber(buffer)) write(newsockfd,"From server: Sorry, cannot compute!\n",36);
 		else {
-			memcpy(buffer, getMessage(buffer), strlen(getMessage(buffer)));  // overwrites buffer with the message
+			char *newBuffer = calloc(256, sizeof(char));
+			newBuffer = getMessage(buffer);
+			bzero(buffer,256);
+			memcpy(buffer, newBuffer, strlen(newBuffer));  // overwrites buffer with the message
 			write(newsockfd,buffer,strlen(buffer));
 		}
 		close(newsockfd);
