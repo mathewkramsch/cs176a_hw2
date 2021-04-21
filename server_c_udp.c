@@ -84,5 +84,7 @@ int main(int argc, char *argv[]) {
 		}
 		bzero(buff,128);
 	}
+
+	close(sock);
 	return 0;
 }
