@@ -23,13 +23,22 @@ int main(int argc, char *argv[]) {
    bcopy((char *)hp->h_addr, (char *)&server.sin_addr, hp->h_length);
    server.sin_port = htons(atoi(argv[2]));
    length=sizeof(struct sockaddr_in);
+
+   // GET INPUT STRING
    printf("Enter string: ");
    bzero(buffer,256);
    fgets(buffer,256,stdin);
    
-   sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&server,length);
-   recvfrom(sock,buffer,256,0,(struct sockaddr *)&from, &length);
+   // WRITE TO SOCKET
+   sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&server,length);  // write to socket
+
+   // READ FROM SOCKET
+   recvfrom(sock,buffer,256,0,(struct sockaddr *)&from, &length);  // read from socket
+
+   // PRINT STRING READ FROM SERVER
    printf("%s",buffer);
+
+   // CLOSE THE SOCKET
    close(sock);
    return 0;
 }

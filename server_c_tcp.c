@@ -75,20 +75,21 @@ int main(int argc, char *argv[]) {
 	// LISTEN ON SOCKET FOR NEW CONNECTIONS
 	listen(sockfd,5);
 
+	// READ & WRITE TO SOCKET
 	while (true) {
 		clilen = sizeof(cli_addr);
-		newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
+		newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);  // accept connection request
 		bzero(buffer,256);  // clear buffer
-		read(newsockfd,buffer,255);
+		read(newsockfd,buffer,255);  // get string from client
 		if (!isNumber(buffer)) write(newsockfd,"From server: Sorry, cannot compute!\n",36);
 		else {
-			char *newBuffer = calloc(256, sizeof(char));
-			newBuffer = getMessage(buffer);
-			bzero(buffer,256);
+			char *newBuffer = calloc(256, sizeof(char));  // makes new character array
+			newBuffer = getMessage(buffer);  // populate char array with whole message
+			bzero(buffer,256);  // clear buffer
 			memcpy(buffer, newBuffer, strlen(newBuffer));  // overwrites buffer with the message
-			write(newsockfd,buffer,strlen(buffer));
+			write(newsockfd,buffer,strlen(buffer));  // write overwritten buffer to socket
 		}
-		close(newsockfd);
+		close(newsockfd);  // close the client socket
 	}
 
 	// CLOSES CLIENT'S SOCKET AND SERVER'S LISTENING SOCKET
@@ -97,18 +98,3 @@ int main(int argc, char *argv[]) {
 
 	return 0;
 }
-
-/* TO COMPILE:
- * gcc server.c -o server */
-
-/* USAGE:
- * ./server <PORT>
- * ie. ./server 8000
- * creates new socket bound to port 8000 w/ address 0.0.0.0 (listens to all interfaces) */
-
-
-/*
- *
-			 printf("buffer: %s\n", buffer);
-			 printf("buffer length: %lu\n", strlen(buffer));
-			 */
