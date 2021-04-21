@@ -1,21 +1,23 @@
-# makefile
+# Makefile
 
 CC = gcc
 ARGS = -Wall
 
+just_tcp: server_c_tcp client_c_tcp
+
 all: server_c_udp client_c_udp server_c_tcp client_c_tcp
 
 server_c_udp: server_c_udp.c
-	$(CC) $(ARGS) -o $^ $@
+	$(CC) $(ARGS) $^ -o $@
 
 client_c_udp: client_c_udp.c
-	$(CC) $(ARGS) -o $^ $@
+	$(CC) $(ARGS) $^ -o $@
 
 server_c_tcp: server_c_tcp.c
-	$(CC) $(ARGS) -o $^ $@
+	$(CC) $(ARGS) $^ -lm -o $@
 
 client_c_tcp: client_c_tcp.c
-	$(CC) $(ARGS) -o $^ $@
+	$(CC) $(ARGS) $^ -o $@
 
 clean:
 	rm -f *.o server_c_udp *~
