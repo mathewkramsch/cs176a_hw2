@@ -29,7 +29,7 @@ int main(int argc, char *argv[]) {
    
    sendto(sock,buffer,strlen(buffer),0,(const struct sockaddr *)&server,length);
    recvfrom(sock,buffer,256,0,(struct sockaddr *)&from, &length);
-   write(1,buffer,strlen(buffer));
+   printf("%s",buffer);
    close(sock);
    return 0;
 }
