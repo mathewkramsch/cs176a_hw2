@@ -4,8 +4,8 @@
 This program is used for communication between a client and server with one program using UDP and one using TCP. The client sends a string of numbers to the server and the server adds up the numbers and then sends them back to the client until there is only one digit left.
 
 
-# Usage 
-#### client input/output:
+## Usage:
+#### Client Input/Output:
 input:
 ./client IP PORT
 
@@ -17,7 +17,7 @@ From server: 12
 From server: 3
 csil-machine2>
 
-#### server input:
+#### Server Input:
 ./server_c_udp PORT
 
 ex:csil-machine1> ./server_c_udp 32000
