@@ -5,21 +5,25 @@ This program is used for communication between a client and server with one prog
 
 
 ## Usage:
-#### Client Input/Output:
-input:
-./client IP PORT
-
-ex: csil-machine2> ./client_c_udp 128.111.49.44 32000
+### Client Input/Output:
+**Input:**  <br>
+```./client IP PORT ```  <br>
+ex: <br>
+```csil-machine2> ./client_c_udp 128.111.49.44 32000
 Enter string: 123456789101234567891012345678910
-output:
+```
+
+**Output:**  <br>
+```
 From server: 138
 From server: 12
 From server: 3
 csil-machine2>
+```
 
-#### Server Input:
-./server_c_udp PORT
-
-ex:csil-machine1> ./server_c_udp 32000
+### Server Input:
+```./server_c_udp PORT ``` <br>
+ex: <br>
+```csil-machine1> ./server_c_udp 32000 ```
 
 
