@@ -7,9 +7,13 @@ This program is used for communication between a client and server with one prog
 ## Usage:
 ### Client Input/Output:
 **Input:**  <br>
-```./client IP PORT ```  <br>
+```
+./client IP PORT 
+```
+
 ex: <br>
-```csil-machine2> ./client_c_udp 128.111.49.44 32000
+```
+csil-machine2> ./client_c_udp 128.111.49.44 32000
 Enter string: 123456789101234567891012345678910
 ```
 
@@ -22,8 +26,13 @@ csil-machine2>
 ```
 
 ### Server Input:
-```./server_c_udp PORT ``` <br>
+```
+./server_c_udp PORT 
+```
+
 ex: <br>
-```csil-machine1> ./server_c_udp 32000 ```
+```
+csil-machine1> ./server_c_udp 32000 
+```
 
 
